@@ -57,8 +57,8 @@ export default function HeroComponent() {
         <ButtonInfoComponent text="Automatización Inteligente" svg={svgButton} />
         <div className="m-2">
           <div className="flex">
-            <div className="flex flex-col">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight mb-6 w-[480px]">
+            <div className="flex flex-col ms-10">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight mb-6 w-[480px] ">
                 Automatiza tu <span className="text-gradient ">WhatsApp</span>,{" "}
                 <br className="hidden sm:block" />
                 Multiplica tus{" "}

@@ -97,12 +97,12 @@ export function TutienesControlComponent() {
   );
   return (
     <>
-      <section className="flex items-center justify-center flex-col">
+      <section className="flex items-center justify-center flex-col bg-background-secondary">
         <ButtonInfoComponent text="100% Configurable" svg={svgButton} />
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight  ">
+        <h2 className=" sm:text-xl lg:text-2xl xl:text-3xl font-extrabold leading-tight  ">
           Tú tienes el <span className="text-gradient">control total</span>
         </h2>
-        <p className=" sm:text-xl lg:text-2xl xl:text-3xl font-medium leading-relaxed mb-12 w-[60%] text-center text-zinc-400">
+        <p className="  lg:text-lg xl:text-xl font-medium leading-relaxed mb-12 w-[30%] text-center text-zinc-400">
           Define exactamente cómo responde tu asistente. Personaliza cada
           mensaje según las necesidades de tu negocio.
         </p>
@@ -113,9 +113,9 @@ export function TutienesControlComponent() {
           {cards.map((card, index) => (
             <div
               key={index}
-              className="glass p-6 rounded-2xl hover:border-primary/30 transition-all group  border-border-color"
+              className="glass p-6 rounded-2xl border border-transparent hover:border-button-primary/30 transition-all group "
             >
-              <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors group-hover:glow-button ">
+              <div className="w-12 h-12 rounded-2xl bg-button-primary/20 flex items-center justify-center text-button-primary mb-4 group-hover:bg-button-primary group-hover:text-white transition-colors group-hover:glow-button ">
                 {card.svg}
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">

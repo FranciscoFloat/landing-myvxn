@@ -12,6 +12,7 @@
   --border-color: hsl(240, 6%, 17%);
   --drop-shadow: 0px 0px 10px rgba(173, 55, 55, 0.5);
   --background-navbar: hsl(240 10% 3.9% / 0.2);
+  --background-secondary: #141417;
 }
 
 @theme inline {
