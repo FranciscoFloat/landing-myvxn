@@ -1,15 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #131316;
+  --foreground: #ffffff;
+  --button-primary: #6567f2;
+  --text-gradient: linear-gradient(90deg, #6567f2 0%, #9467f2 100%);
+  --text-muted: #6f6f6f;
+  --neon: hsl(76, 91%, 55%);
+  --background-muted: hsl(76, 91%, 10%);
+  --text-color-primary: hsl(239, 84%, 67%);
+  --border-color: hsl(240, 6%, 17%);
+  --drop-shadow: 0px 0px 10px rgba(173, 55, 55, 0.5);
+  --background-navbar: hsl(240 10% 3.9% / 0.2);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-button-primary: var(--button-primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --text-gradient: var(--text-gradient);
+  --color-text-muted: var(--text-muted);
+  --color-neon: var(--neon);
+  --color-background-muted: var(--background-muted);
+  --color-text-color-primary: var(--text-color-primary);
+  --color-border-color: var(--border-color);
+  --drop-shadow: var(--drop-shadow);
+  --color-background-navbar: var(--background-navbar);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +41,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--text-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
 }
