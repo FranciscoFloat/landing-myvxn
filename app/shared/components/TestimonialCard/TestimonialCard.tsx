@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface TestimonialCardProps {
   quote: string;
@@ -47,15 +48,16 @@ export const TestimonialCard = ({
         </div>
       </div>
 
-      <p className="text-gray-300 leading-relaxed font-medium">"{quote}"</p>
+      <p className="text-gray-300 leading-relaxed font-medium">&quot;{quote}&quot;</p>
 
       <div className="mt-auto flex items-center gap-4 pt-4 border-t border-white/5">
         <div className="w-12 h-12 rounded-full bg-zinc-800 overflow-hidden relative shrink-0">
           {imageSrc ? (
-            <img
+            <Image
               src={imageSrc}
               alt={author}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           ) : (
             <div className="w-full h-full bg-zinc-700 flex items-center justify-center text-xs text-zinc-500">

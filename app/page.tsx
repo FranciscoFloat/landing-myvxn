@@ -1,4 +1,3 @@
-import Image from "next/image";
 import NavBarComponent from "./shared/components/NavBarComponent/NavBarcomponent";
 import FooterComponent from "./shared/components/FooterComponent/FooterComponent";
 import HeroComponent from "./components/HeroComponent/HeroComponent";

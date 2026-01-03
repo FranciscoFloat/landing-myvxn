@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 type ExampleType = "precio" | "horario" | "ubicación";
 
@@ -79,12 +80,19 @@ export function ConfigPanelComponent() {
                 Si el cliente dice:
               </div>
               <div className="relative group">
-                <input 
-                  type="text" 
-                  value={currentData.keyword}
-                  readOnly
-                  className="w-full bg-[#0f0f11] border border-zinc-800 rounded-full px-6 py-4 text-zinc-200 text-lg font-medium focus:outline-none focus:border-indigo-500/50 transition-colors shadow-inner"
-                />
+                <AnimatePresence mode="wait">
+                  <motion.input 
+                    key={activeExample}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    type="text" 
+                    value={currentData.keyword}
+                    readOnly
+                    className="w-full bg-[#0f0f11] border border-zinc-800 rounded-full px-6 py-4 text-zinc-200 text-lg font-medium focus:outline-none focus:border-indigo-500/50 transition-colors shadow-inner"
+                  />
+                </AnimatePresence>
                  <div className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 group-hover:text-zinc-400 transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
@@ -112,9 +120,18 @@ export function ConfigPanelComponent() {
                 El asistente responde con:
               </div>
               <div className="relative">
-                <div className="w-full bg-[#0f0f11] border border-zinc-800 rounded-3xl px-6 py-5 text-zinc-300 text-lg font-normal leading-relaxed min-h-[100px] flex items-center shadow-inner">
-                   {currentData.response}
-                </div>
+                <AnimatePresence mode="wait">
+                  <motion.div 
+                    key={activeExample}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="w-full bg-[#0f0f11] border border-zinc-800 rounded-3xl px-6 py-5 text-zinc-300 text-lg font-normal leading-relaxed min-h-[100px] flex items-center shadow-inner"
+                  >
+                     {currentData.response}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
 
@@ -132,25 +149,43 @@ export function ConfigPanelComponent() {
 
                 {/* User Message */}
                 <div className="self-start relative z-10">
-                   <div className="bg-[#1e1e22] text-zinc-300 px-6 py-3 rounded-2xl rounded-tl-sm border border-zinc-800 inline-block">
-                      <p className="text-base">
-                        {currentData.userQuery.split(currentData.keyword).map((part, i, arr) => (
-                        <React.Fragment key={i}>
-                          {part}
-                          {i < arr.length - 1 && (
-                            <span className="text-indigo-400 font-semibold">{currentData.keyword}</span>
-                          )}
-                        </React.Fragment>
-                      ))}
-                      </p>
-                   </div>
+                   <AnimatePresence mode="wait">
+                     <motion.div 
+                       key={activeExample}
+                       initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                       animate={{ opacity: 1, y: 0, scale: 1 }}
+                       exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                       transition={{ duration: 0.3 }}
+                       className="bg-[#1e1e22] text-zinc-300 px-6 py-3 rounded-2xl rounded-tl-sm border border-zinc-800 inline-block"
+                     >
+                        <p className="text-base">
+                          {currentData.userQuery.split(currentData.keyword).map((part, i, arr) => (
+                          <React.Fragment key={i}>
+                            {part}
+                            {i < arr.length - 1 && (
+                              <span className="text-indigo-400 font-semibold">{currentData.keyword}</span>
+                            )}
+                          </React.Fragment>
+                        ))}
+                        </p>
+                     </motion.div>
+                   </AnimatePresence>
                 </div>
 
                 {/* Assistant Message */}
                 <div className="self-end relative z-10 max-w-[85%]">
-                    <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3.5 rounded-2xl rounded-tr-sm shadow-[0_4px_20px_rgba(79,70,229,0.3)] inline-block">
-                      <p className="text-base font-medium">{currentData.response}</p>
-                    </div>
+                    <AnimatePresence mode="wait">
+                      <motion.div 
+                        key={activeExample}
+                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                        className="bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3.5 rounded-2xl rounded-tr-sm shadow-[0_4px_20px_rgba(79,70,229,0.3)] inline-block"
+                      >
+                        <p className="text-base font-medium">{currentData.response}</p>
+                      </motion.div>
+                    </AnimatePresence>
                 </div>
              </div>
           </div>

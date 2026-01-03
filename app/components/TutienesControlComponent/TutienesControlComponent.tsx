@@ -1,5 +1,8 @@
+"use client";
+
 import { ButtonInfoComponent } from "@/app/shared/components/ButtonInfoComponent/ButtonInfoComponent";
 import { ConfigPanelComponent } from "./ConfigPanelComponent";
+import { motion, Variants } from "motion/react";
 
 export function TutienesControlComponent() {
   const svgWordsIli = (
@@ -95,36 +98,76 @@ export function TutienesControlComponent() {
       <circle cx="7" cy="7" r="3"></circle>
     </svg>
   );
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
   return (
     <>
-      <section className="flex items-center justify-center flex-col bg-background-secondary">
-        <ButtonInfoComponent text="100% Configurable" svg={svgButton} />
-        <h2 className=" sm:text-xl lg:text-2xl xl:text-3xl font-extrabold leading-tight  ">
-          Tú tienes el <span className="text-gradient">control total</span>
-        </h2>
-        <p className="  lg:text-lg xl:text-xl font-medium leading-relaxed mb-12 w-[30%] text-center text-zinc-400">
-          Define exactamente cómo responde tu asistente. Personaliza cada
-          mensaje según las necesidades de tu negocio.
-        </p>
-        <div className="w-full mt-2">
-          <ConfigPanelComponent />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 w-full max-w-6xl px-4 ">
-          {cards.map((card, index) => (
-            <div
-              key={index}
-              className="glass p-6 rounded-2xl border border-transparent hover:border-button-primary/30 transition-all group "
-            >
-              <div className="w-12 h-12 rounded-2xl bg-button-primary/20 flex items-center justify-center text-button-primary mb-4 group-hover:bg-button-primary group-hover:text-white transition-colors group-hover:glow-button ">
-                {card.svg}
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">
-                {card.title}
-              </h3>
-              <p className="text-muted-foreground">{card.text}</p>
-            </div>
-          ))}
-        </div>
+      <section className="flex items-center justify-center flex-col bg-background-secondary overflow-hidden">
+        <motion.div
+          className="flex flex-col items-center w-full"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.div variants={itemVariants}>
+            <ButtonInfoComponent text="100% Configurable" svg={svgButton} />
+          </motion.div>
+          <motion.h2 
+            className=" sm:text-xl lg:text-2xl xl:text-3xl font-extrabold leading-tight  "
+            variants={itemVariants}
+          >
+            Tú tienes el <span className="text-gradient">control total</span>
+          </motion.h2>
+          <motion.p 
+            className="  lg:text-lg xl:text-xl font-medium leading-relaxed mb-12 w-[30%] text-center text-zinc-400"
+            variants={itemVariants}
+          >
+            Define exactamente cómo responde tu asistente. Personaliza cada
+            mensaje según las necesidades de tu negocio.
+          </motion.p>
+          <motion.div 
+            className="w-full mt-2"
+            variants={itemVariants}
+          >
+            <ConfigPanelComponent />
+          </motion.div>
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 w-full max-w-6xl px-4 "
+            variants={containerVariants}
+          >
+            {cards.map((card, index) => (
+              <motion.div
+                key={index}
+                className="glass p-6 rounded-2xl border border-transparent hover:border-button-primary/30 transition-all group "
+                variants={itemVariants}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              >
+                <div className="w-12 h-12 rounded-2xl bg-button-primary/20 flex items-center justify-center text-button-primary mb-4 group-hover:bg-button-primary group-hover:text-white transition-colors group-hover:glow-button ">
+                  {card.svg}
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  {card.title}
+                </h3>
+                <p className="text-muted-foreground">{card.text}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       </section>
     </>
   );

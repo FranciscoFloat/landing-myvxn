@@ -1,5 +1,8 @@
+"use client";
+
 import { ButtonInfoComponent } from "@/app/shared/components/ButtonInfoComponent/ButtonInfoComponent";
 import { TestimonialCard } from "@/app/shared/components/TestimonialCard/TestimonialCard";
+import { motion, Variants } from "motion/react";
 
 export default function TestimonialsComponent() {
   const svg = (
@@ -47,30 +50,69 @@ export default function TestimonialsComponent() {
     { value: "4.9", label: "Calificación Promedio" },
   ];
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
   return (
     <section className="flex justify-center items-center flex-col gap-4 w-full px-4 py-20">
-      <ButtonInfoComponent text="Testimonios" svg={svg} />
-      <h2 className=" sm:text-xl lg:text-2xl xl:text-3xl font-extrabold leading-tight text-center mb-4">
-        Lo que dicen nuestros <span className="text-gradient">clientes</span>
-      </h2>
-      <p className="  lg:text-lg xl:text-xl font-medium leading-relaxed mb-12 w-full max-w-2xl text-center text-zinc-400">
-        Empresarios y profesionales que ya transformaron su atención al cliente con
-        My Vixen.
-      </p>
+      <motion.div
+        className="flex flex-col items-center gap-4 w-full"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        <ButtonInfoComponent text="Testimonios" svg={svg} />
+        <h2 className=" sm:text-xl lg:text-2xl xl:text-3xl font-extrabold leading-tight text-center mb-4">
+          Lo que dicen nuestros <span className="text-gradient">clientes</span>
+        </h2>
+        <p className="  lg:text-lg xl:text-xl font-medium leading-relaxed mb-12 w-full max-w-2xl text-center text-zinc-400">
+          Empresarios y profesionales que ya transformaron su atención al cliente con
+          My Vixen.
+        </p>
+      </motion.div>
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl mb-12">
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl mb-12"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
         {testimonials.map((t, i) => (
-          <TestimonialCard key={i} {...t} />
+          <motion.div key={i} variants={itemVariants} className="h-full">
+            <TestimonialCard {...t} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Stats Section */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-7xl">
+      <motion.div 
+        className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-7xl"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
         {stats.map((stat, i) => (
-          <div
+          <motion.div
             key={i}
             className="bg-[#141417] p-8 rounded-3xl border border-white/5 flex flex-col items-center justify-center gap-2 hover:border-button-primary/30 transition-all duration-300"
+            variants={itemVariants}
           >
             <span className="text-4xl font-bold text-button-primary">
               {stat.value}
@@ -78,9 +120,9 @@ export default function TestimonialsComponent() {
             <span className="text-zinc-400 font-medium text-center">
               {stat.label}
             </span>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

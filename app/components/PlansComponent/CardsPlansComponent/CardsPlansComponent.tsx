@@ -1,4 +1,7 @@
+"use client";
+
 import { ButtonInfoComponent } from "@/app/shared/components/ButtonInfoComponent/ButtonInfoComponent";
+import { motion, Variants } from "motion/react";
 
 export function CardsPlansComponent() {
   const svgPlanBasic = (
@@ -120,17 +123,41 @@ export function CardsPlansComponent() {
     },
   ];
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
   return (
     <section className="flex justify-center items-center flex-col gap-4 w-full px-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-7xl">
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-7xl"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
         {plans.map((plan, index) => (
-          <div
+          <motion.div
             key={index}
             className={`relative p-8 rounded-3xl flex flex-col gap-6 bg-[#0E0E11] border ${
               plan.highlight
                 ? "border-neon shadow-[0_0_20px_rgba(163,230,53,0.2)]"
                 : "border-white/10"
             }`}
+            variants={itemVariants}
+            whileHover={{ y: -8, transition: { duration: 0.2 } }}
           >
             {plan.highlight && (
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-neon text-black px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
@@ -181,11 +208,17 @@ export function CardsPlansComponent() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="mt-8">
+      <motion.div 
+        className="mt-8"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        viewport={{ once: true }}
+      >
         <ButtonInfoComponent
           text={
             <>
@@ -197,7 +230,7 @@ export function CardsPlansComponent() {
           }
           icon={"💡"}
         />
-      </div>
+      </motion.div>
     </section>
   );
 }
