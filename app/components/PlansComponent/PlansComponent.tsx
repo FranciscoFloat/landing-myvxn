@@ -3,8 +3,41 @@
 import { ButtonInfoComponent } from "@/app/shared/components/ButtonInfoComponent/ButtonInfoComponent";
 import { CardsPlansComponent } from "./CardsPlansComponent/CardsPlansComponent";
 import { motion, Variants } from "motion/react";
+import { Plans, PlansResponse } from "./interfaces/PlansResponset.interface";
+import { SpinnerComponent } from "@/app/shared/components/SpinnerComponent/SpinnerComponent";
+import { useState, useEffect } from "react";
 
 export function PlansComponent() {
+  const [plans, setPlans] = useState<Plans[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      
+      if (!apiUrl) {
+        console.error("NEXT_PUBLIC_API_URL is not defined");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await fetch(`${apiUrl}/plans`);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data: PlansResponse = await res.json();
+        setPlans(data.data);
+      } catch (error) {
+        console.error("Error fetching plans:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlans();
+  }, []);
+
   const svgButton = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +98,13 @@ export function PlansComponent() {
           </motion.p>
           
           <motion.div variants={itemVariants} className="w-full">
-            <CardsPlansComponent />
+            {loading ? (
+              <div className="flex justify-center items-center h-96">
+                <SpinnerComponent />
+              </div>
+            ) : (
+              <CardsPlansComponent plans={plans} />
+            )}
           </motion.div>
         </motion.div>
       </section>

@@ -4,6 +4,7 @@ import HeroComponent from "./components/HeroComponent/HeroComponent";
 import { TutienesControlComponent } from "./components/TutienesControlComponent/TutienesControlComponent";
 import { PlansComponent } from "./components/PlansComponent/PlansComponent";
 import TestimonialsComponent from "./components/TestimonialsComponent/TestimonialsComponent";
+import ContactComponent from "./components/ContactComponent/ContactaComponent";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
         <TutienesControlComponent></TutienesControlComponent>
         <PlansComponent></PlansComponent>
         <TestimonialsComponent></TestimonialsComponent>
+        <ContactComponent></ContactComponent> 
       </main>
       <FooterComponent />
     </div>

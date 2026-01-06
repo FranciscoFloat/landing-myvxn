@@ -1,9 +1,14 @@
 "use client";
 
 import { ButtonInfoComponent } from "@/app/shared/components/ButtonInfoComponent/ButtonInfoComponent";
+import { Plans } from "../interfaces/PlansResponset.interface";
 import { motion, Variants } from "motion/react";
 
-export function CardsPlansComponent() {
+interface CardsPlansComponentProps {
+  plans: Plans[];
+}
+
+export function CardsPlansComponent({ plans }: CardsPlansComponentProps) {
   const svgPlanBasic = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -78,50 +83,14 @@ export function CardsPlansComponent() {
     </svg>
   );
 
-  const plans = [
-    {
-      name: "Plan Básico",
-      description: "Orientado a negocios chicos",
-      price: "$399",
-      icon: svgPlanBasic,
-      features: [
-        "1 número de WhatsApp",
-        "Respuestas automáticas por palabras clave",
-        "Horarios y días festivos configurables",
-        "Hasta 800 mensajes/mes",
-        "1 flujo activo",
-      ],
-      highlight: false,
-    },
-    {
-      name: "Plan Profesional",
-      description: "El más popular",
-      price: "$699",
-      icon: svgPlanPro,
-      features: [
-        "Todo lo del Plan Básico",
-        "2,000 mensajes/mes",
-        "Recordatorios automáticos",
-        "5 flujos activos",
-        "Agenda básica",
-      ],
-      highlight: true,
-    },
-    {
-      name: "Plan Negocio",
-      description: "Para clínicas y negocios grandes",
-      price: "$1,199",
-      icon: svgPlanEnterprise,
-      features: [
-        "5,000 mensajes/mes",
-        "Flujos ilimitados",
-        "Atención fuera de horario",
-        "Prioridad de soporte",
-        "Integraciones avanzadas",
-      ],
-      highlight: false,
-    },
-  ];
+  const getIcon = (name: string) => {
+    if (name.toLowerCase().includes("básico")) return svgPlanBasic;
+    if (name.toLowerCase().includes("profesional")) return svgPlanPro;
+    if (name.toLowerCase().includes("negocio")) return svgPlanEnterprise;
+    return svgPlanBasic;
+  };
+
+  const isHighlight = (name: string) => name.toLowerCase().includes("profesional");
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -148,68 +117,74 @@ export function CardsPlansComponent() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
       >
-        {plans.map((plan, index) => (
-          <motion.div
-            key={index}
-            className={`relative p-8 rounded-3xl flex flex-col gap-6 bg-[#0E0E11] border ${
-              plan.highlight
-                ? "border-neon shadow-[0_0_20px_rgba(163,230,53,0.2)]"
-                : "border-white/10"
-            }`}
-            variants={itemVariants}
-            whileHover={{ y: -8, transition: { duration: 0.2 } }}
-          >
-            {plan.highlight && (
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-neon text-black px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                Más popular
-              </div>
-            )}
+        {plans.map((plan, index) => {
+          const highlight = isHighlight(plan.name);
+          const icon = getIcon(plan.name);
+          const features = plan.benefits ? plan.benefits.split(",").map(f => f.trim()) : [];
 
-            <div className="flex flex-col gap-4">
-              <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white">
-                {plan.icon}
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-white mb-1">
-                  {plan.name}
-                </h3>
-                <p className="text-gray-400 text-sm">{plan.description}</p>
-              </div>
-            </div>
-
-            <div className="flex items-baseline gap-1">
-              <span className="text-5xl font-bold text-white">
-                {plan.price}
-              </span>
-              <span className="text-gray-400">MXN/mes</span>
-            </div>
-
-            <button
-              className={`w-full py-3 rounded-full font-semibold transition-all duration-300 ${
-                plan.highlight
-                  ? "bg-button-primary text-white hover:opacity-90 shadow-lg shadow-button-primary/25"
-                  : "bg-transparent border border-white/20 text-white hover:border-white/40"
+          return (
+            <motion.div
+              key={index}
+              className={`relative p-8 rounded-3xl flex flex-col gap-6 bg-[#0E0E11] border ${
+                highlight
+                  ? "border-neon shadow-[0_0_20px_rgba(163,230,53,0.2)]"
+                  : "border-white/10"
               }`}
+              variants={itemVariants}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
             >
-              Comenzar Ahora
-            </button>
-
-            <div className="flex flex-col gap-3">
-              {plan.features.map((feature, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div
-                    className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      plan.highlight ? "bg-neon" : "bg-button-primary"
-                    }`}
-                  >
-                    {checkIcon}
-                  </div>
-                  <span className="text-gray-300 text-sm">{feature}</span>
+              {highlight && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-neon text-black px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                  Más popular
                 </div>
-              ))}
-            </div>
-          </motion.div>
-        ))}
+              )}
+
+              <div className="flex flex-col gap-4">
+                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white">
+                  {icon}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1">
+                    {plan.name}
+                  </h3>
+                  <p className="text-gray-400 text-sm">{plan.description}</p>
+                </div>
+              </div>
+
+              <div className="flex items-baseline gap-1">
+                <span className="text-5xl font-bold text-white">
+                  {plan.pricing}
+                </span>
+                <span className="text-gray-400">MXN/mes</span>
+              </div>
+
+              <button
+                className={`w-full py-3 rounded-full font-semibold transition-all duration-300 ${
+                  highlight
+                    ? "bg-button-primary text-white hover:opacity-90 shadow-lg shadow-button-primary/25"
+                    : "bg-transparent border border-white/20 text-white hover:border-white/40"
+                }`}
+              >
+                Comenzar Ahora
+              </button>
+
+              <div className="flex flex-col gap-3">
+                {features.map((feature, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div
+                      className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        highlight ? "bg-neon" : "bg-button-primary"
+                      }`}
+                    >
+                      {checkIcon}
+                    </div>
+                    <span className="text-gray-300 text-sm">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          );
+        })}
       </motion.div>
 
       <motion.div 
