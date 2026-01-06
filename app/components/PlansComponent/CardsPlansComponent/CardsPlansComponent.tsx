@@ -84,9 +84,10 @@ export function CardsPlansComponent({ plans }: CardsPlansComponentProps) {
   );
 
   const getIcon = (name: string) => {
-    if (name.toLowerCase().includes("básico")) return svgPlanBasic;
-    if (name.toLowerCase().includes("profesional")) return svgPlanPro;
-    if (name.toLowerCase().includes("negocio")) return svgPlanEnterprise;
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes("básico") || lowerName.includes("basico")) return svgPlanBasic;
+    if (lowerName.includes("profesional")) return svgPlanPro;
+    if (lowerName.includes("negocio") || lowerName.includes("empresarial")) return svgPlanEnterprise;
     return svgPlanBasic;
   };
 
@@ -120,7 +121,7 @@ export function CardsPlansComponent({ plans }: CardsPlansComponentProps) {
         {plans.map((plan, index) => {
           const highlight = isHighlight(plan.name);
           const icon = getIcon(plan.name);
-          const features = plan.benefits ? plan.benefits.split(",").map(f => f.trim()) : [];
+          const features = plan.benefits ? plan.benefits.split("|").map(f => f.trim()) : [];
 
           return (
             <motion.div
